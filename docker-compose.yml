@@ -1,0 +1,22 @@
+services:
+  tg-enricher:
+    container_name: tg-enricher
+    hostname: tg-enricher
+    image: tg-enricher
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VERSION: "${VERSION}"
+        GIT_COMMIT: "${COMMIT_HASH}"
+        BUILD_TIME: "${BUILD_TIME}"
+    environment:
+      - CONFIG_PATH=/app/data/config.yaml
+    volumes:
+      - ./config/config.yaml:/app/data/config.yaml
+    networks:
+      - tgqueue_default
+
+networks:
+  tgqueue_default:
+    external: true
